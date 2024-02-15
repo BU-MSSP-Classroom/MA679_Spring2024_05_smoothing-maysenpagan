@@ -16,7 +16,7 @@ pacman::p_load(ISLR
                ,HSAUR2
                ,mboost
                ,rpart
-               ,mgcv
+               #,mgcv
                ,wordcloud
                ,knitr,TTR,zoo)
 
@@ -129,8 +129,15 @@ data(College,package = "ISLR2")
 
 Your code:
 ```{r,echo=TRUE}
-#
-#
+set.seed(123)
+inds <- sample(seq_len(nrow(College)), size = nrow(College)*(0.75))
+train <- College[inds,]
+test <- College[-inds,]
+
+model <- lm(log(Outstate) ~ Private + Top10perc + Expend + log(Room.Board), data = train)
+
+preds1 <- predict(model, newdata = test)
+sum((preds1-log(test$Outstate))^2)
 ```
 
 Your answer:
@@ -148,8 +155,9 @@ Please write your answer in full sentences.
 
 Your code:
 ```{r,echo=TRUE}
-#
-#
+model2 <- gam(log(Outstate) ~ Private + bs(Top10perc) + poly(Expend, 2) + s(log(`Room.Board`)), data = train)
+
+plot.Gam(model2)
 ```
 
 Your answer:
@@ -166,8 +174,8 @@ Please write your answer in full sentences.
 
 Your code:
 ```{r,echo=TRUE}
-#
-#
+preds2 <- predict(model2, newdata = test)
+sum((preds2-log(test$Outstate))^2)
 ```
 
 Your answer:
