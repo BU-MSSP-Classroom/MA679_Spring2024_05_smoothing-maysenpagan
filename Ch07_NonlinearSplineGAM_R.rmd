@@ -16,7 +16,7 @@ pacman::p_load(ISLR
                ,HSAUR2
                ,mboost
                ,rpart
-               #,mgcv
+               ,mgcv
                ,wordcloud
                ,knitr,TTR,zoo)
 
@@ -157,7 +157,7 @@ Your code:
 ```{r,echo=TRUE}
 model2 <- gam(log(Outstate) ~ Private + bs(Top10perc) + poly(Expend, 2) + s(log(`Room.Board`)), data = train)
 
-plot.Gam(model2)
+plot(model2)
 ```
 
 Your answer:
