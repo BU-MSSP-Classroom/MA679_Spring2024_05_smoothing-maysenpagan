@@ -154,6 +154,7 @@ Please write your answer in full sentences.
 
 
 Your code:
+
 ```{r,echo=TRUE}
 model2 <- gam(log(Outstate) ~ Private + bs(Top10perc) + poly(Expend, 2) + s(log(`Room.Board`)), data = train)
 
@@ -191,6 +192,8 @@ Please write your answer in full sentences.
 
 
 Your code:
+
+
 ```{r,echo=TRUE}
 #
 #
@@ -211,9 +214,27 @@ Fit some of the non-linear models investigated in chapter 7 to the `Auto` data s
 
 
 Your code:
-```{r,echo=TRUE}
-#
-#
+
+```{r}
+set.seed(123)
+inds <- sample(seq_len(nrow(Auto)), size = nrow(Auto)*(0.75))
+train <- Auto[inds,]
+test <- Auto[-inds,]
+```
+
+```{r,echo=TRUE, fig.height=10}
+plot(Auto$weight, Auto$mpg)
+plot(Auto$displacement, Auto$mpg)
+plot(Auto$acceleration, Auto$mpg)
+plot(Auto$horsepower, Auto$mpg)
+
+model <- gam(mpg ~ poly(horsepower,2) + bs(weight) + bs(displacement):bs(acceleration), data = train)
+```
+
+```{r}
+preds <- predict(model, newdata = test)
+sum((preds-test$mpg)^2)
+
 ```
 
 Your answer:
